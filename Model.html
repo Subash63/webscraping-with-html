@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display JSON Data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Model Details</h2>
+
+    <div id="jsonOutput">
+    </div>
+<form action="Product.html" onsubmit="return validateForm()">
+    <input type="submit" value="Next"><br>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('output.json');
+                const jsonData = await response.json();
+                const productDescriptionArray = jsonData.Product_description.Product_descrition[0];
+                let htmlContent1 = '<table>';
+
+                for (let i = 0; i < productDescriptionArray.length; i += 2)
+                {
+                    htmlContent1 += `<tr><th>${productDescriptionArray[i]}</th><td>${productDescriptionArray[i + 1]}</td></tr>`;
+                }
+                htmlContent1 += '</table>';
+
+                let htmlContent = '<table>';
+                for (const key in jsonData.Model_details) {
+                    if (jsonData.Model_details.hasOwnProperty(key)) {
+                        htmlContent += `<tr><th>${key}</th><td>${jsonData.Model_details[key]}</td></tr>`;
+
+                    }
+                }htmlContent += '</table>';
+
+                document.getElementById('jsonOutput').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('Error fetching or parsing JSON:', error);
+            }
+        }
+
+        fetchData();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Product Description</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Product Description</h2>
+<form action="vehicle.html" onsubmit="return validateForm()">
+    <input type="submit" value="next"><br>
+</form>
+    <div id="jsonOutput">
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('Output.json');
+                const jsonData = await response.json();
+
+                const productDescriptionArray = jsonData.Product_description.Product_descrition[0];
+
+                let htmlContent = '<table>';
+                for (let i = 0; i < productDescriptionArray.length; i += 2) {
+                    htmlContent += `<tr><th>${productDescriptionArray[i]}</th><td>${productDescriptionArray[i + 1]}</td></tr>`;
+                }
+                htmlContent += '</table>';
+
+                document.getElementById('jsonOutput').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('Error fetching or parsing JSON:', error);
+            }
+        }
+
+        fetchData();
+    </script>
+
+</body>
+</html>

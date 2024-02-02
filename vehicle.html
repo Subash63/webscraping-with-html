@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Product Description</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Vehicle Fitment</h2>
+    <form action="Homepage.html" onsubmit="return validateForm()">
+    <input type="submit" value="homepage"><br>
+
+    <div id="jsonOutput">
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('Output.json');
+                const jsonData = await response.json();
+
+                const VehicleArray = jsonData.Vehicle_fitment['Vehicle Fit'][1];
+
+                let htmlContent = '<table>';
+                for (let i = 0; i < VehicleArray.length; i += 3) {
+                    htmlContent += `<tr><th>${VehicleArray[i]}</th><td>${VehicleArray[i + 1]}</td><td>${VehicleArray[i + 2]}</td></tr>`;
+                }
+                htmlContent += '</table>';
+
+                document.getElementById('jsonOutput').innerHTML = htmlContent;
+            } catch (error) {
+                console.error('Error fetching or parsing JSON:', error);
+            }
+        }
+
+        fetchData();
+    </script>
+
+</body>
+</html>
